@@ -1,13 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <script defer src="script.js"></script>
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+    <title>Javascript Quiz App</title>
+  </head>
+  <body>
+    <main class="app">
+      <form class="form">
+        <div class="form__group">
+          <label class="form__label" for="amount">Number of questions: </label>
+          <input
+            class="form__input"
+            id="amount"
+            name="amount"
+            type="number"
+            step="1"
+            min="1"
+            max="50"
+            value="10"
+          />
+        </div>
+
+        <div class="form__group">
+          <label class="form__label" for="category">Select Category: </label>
+          <select class="form__input" id="category" name="category">
+            <option value="">Any Category</option>
+            <option value="9">General Knowledge</option>
+            <option value="10">Entertainment: Books</option>
+            <option value="11">Entertainment: Film</option>
+            <option value="12">Entertainment: Music</option>
+            <option value="13">Entertainment: Musicals &amp; Theatres</option>
+            <option value="14">Entertainment: Television</option>
+            <option value="15">Entertainment: Video Games</option>
+            <option value="16">Entertainment: Board Games</option>
+            <option value="17">Science &amp; Nature</option>
+            <option value="18">Science: Computers</option>
+            <option value="19">Science: Mathematics</option>
+            <option value="20">Mythology</option>
+            <option value="21">Sports</option>
+            <option value="22">Geography</option>
+            <option value="23">History</option>
+            <option value="24">Politics</option>
+            <option value="25">Art</option>
+            <option value="26">Celebrities</option>
+            <option value="27">Animals</option>
+            <option value="28">Vehicles</option>
+            <option value="29">Entertainment: Comics</option>
+            <option value="30">Science: Gadgets</option>
+            <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+            <option value="32">Entertainment: Cartoon &amp; Animations</option>
+          </select>
+        </div>
+
+        <div class="form__group">
+          <label class="form__label" for="difficulty">Select Difficulty: </label>
+          <select class="form__input" id="difficulty" name="difficulty">
+            <option value="">Any Difficulty</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="form__group">
+          <label class="form__label" for="type">Select Type: </label>
+          <select class="form__input" id="type" name="type">
+            <option value="">Any Type</option>
+            <option value="multiple">Multiple Choice</option>
+            <option value="boolean">True / False</option>
+          </select>
+        </div>
+
+        <button class="btn btn--start-quiz" type="submit">Start Quiz</button>
+      </form>
+
+      <section class="quiz-container"></section>
+      <!-- <div class="quiz">
+        <header class="header">
+          <div class="question-no">
+            <p>Question 1 out of 10</p>
+          </div>
+          <div class="category">
+            <p><strong>Category: </strong><span>Entertainment: Video Games</span></p>
+          </div>
+          <div class="difficulty">
+            <p><strong>Difficulty: </strong><span>medium</span></p>
+          </div>
+        </header>
+        <p class="question">Which company did Bethesda purchase the Fallout Series from?</p>
+        <ul class="options">
+          <li class="option">Interplay Entertainment</li>
+          <li class="option">Capcom</li>
+          <li class="option">Blizzard Entertainment</li>
+          <li class="option">Nintendo</li>
+        </ul>
+        <button class="btn btn--next">Next Question</button>
+      </div> -->
+
+      <!-- 
+        /* 
+        category: "Entertainment: Video Games"
+        correct_answer: "Interplay Entertainment "
+        difficulty: "medium"
+        incorrect_answers: Array(3)
+        0: "Capcom"
+        1: "Blizzard Entertainment"
+        2: "Nintendo"
+        length: 3
+        [[Prototype]]: Array(0)
+        question: "Which company did Bethesda purchase the Fallout Series from?"
+        type: "multiple"
+        */
+        -->
+    </main>
+  </body>
 </html>

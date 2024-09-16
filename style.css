@@ -1,0 +1,121 @@
+/* write css here */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+
+  font-family: sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.app {
+  max-width: 100rem;
+  width: 100%;
+  margin: 4rem auto;
+  display: grid;
+  place-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  transition: all 0.5s;
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.4rem;
+}
+
+.form__input {
+  padding: 0.6rem 1.2rem;
+}
+
+.btn {
+  display: inline-block;
+  font-size: inherit;
+  font-weight: 500;
+  padding: 0.6rem 1.2rem;
+  background-color: green;
+  color: #fff;
+  border-radius: 0.6rem;
+  border: 1px solid darkgreen;
+  transition: all 0.2s;
+}
+.btn:hover {
+  background-color: darkgreen;
+  border-color: green;
+}
+
+.btn--start-quiz {
+  align-self: center;
+}
+.btn--next {
+  justify-self: end;
+}
+.btn--quit,
+.btn--play-new {
+  justify-self: center;
+}
+
+.hidden {
+  transform: translateX(-100%);
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  gap: 0;
+  pointer-events: none;
+}
+
+.quiz,
+.quiz-result {
+  width: 100%;
+  display: grid;
+  /* place-content: center; */
+  row-gap: 1.6rem;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  place-items: center;
+  row-gap: 2rem;
+  column-gap: 2.4rem;
+}
+
+.question-no {
+  grid-column: span 2;
+}
+
+.question {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.options {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.option {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 0.6rem;
+  cursor: pointer;
+}
