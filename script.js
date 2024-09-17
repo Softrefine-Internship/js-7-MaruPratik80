@@ -1,101 +1,94 @@
 // write javascript here
-const parentEL = document.querySelector('.quiz-container');
-const form = document.querySelector('.form');
 const questionAmount = document.getElementById('amount');
 const category = document.getElementById('category');
 const difficulty = document.getElementById('difficulty');
 const type = document.getElementById('type');
 
+const form = document.querySelector('.form-quiz-options');
+const quizQuestions = document.querySelector('.quiz-questions');
+const quizResults = document.querySelector('.quiz-results');
+const spinner = document.querySelector('.spinner');
+
 const btnStartQuiz = document.querySelector('.btn--start-quiz');
+const btnQuit = document.querySelector('.btn--quit');
+const btnNext = document.querySelector('.btn--next');
+const btnShowResults = document.querySelector('.btn--results');
+const btnPlayNew = document.querySelector('.btn--play-new');
 
-const displayResult = function () {
-  const markup = `
-    <div class="quiz-result">
-      <button class="btn btn--play-new">Play New Quiz</button>
-    </div>
-  `;
-  parentEL.insertAdjacentHTML('beforeend', markup);
-};
+const questionNoEl = document.querySelector('.question-no');
+const scoreEl = document.querySelector('.score');
+const categoryEl = document.querySelector('.category');
+const difficultyEl = document.querySelector('.difficulty');
+const questionEl = document.querySelector('.question');
+const answersEl = document.querySelector('.answers');
 
-const displayQuestion = function (que, i, max) {
-  const options = [que.correct_answer, ...que.incorrect_answers];
+class QuizApp {
+  #questions = [];
+  #currentQuestionIndex = 0;
+  #score = 0;
 
-  const markup = `
-    <div class="quiz ${i !== 0 ? 'hidden' : ''}">
-      <header class="header">
-        <div class="question-no">
-          <p>Question ${i + 1} out of 10</p>
-        </div>
-        <div class="category">
-          <p><strong>Category: </strong><span>${que.category}</span></p>
-        </div>
-        <div class="difficulty">
-          <p><strong>Difficulty: </strong><span>${que.difficulty}</span></p>
-        </div>
-      </header>
-      <p class="question">${que.question}</p>
-      <ul class="options">
-        ${options.map(option => `<li class="option">${option}</li>`).join('')}
-      </ul>
-      <button class="btn ${i !== max - 1 ? 'btn--next">Next Question' : 'btn--quit">Quit Quiz'}</button>
-    </div>
-  `;
-  parentEL.insertAdjacentHTML('beforeend', markup);
-};
+  constructor() {
+    btnStartQuiz.addEventListener('click', this.#startQuiz.bind(this));
+    btnNext.addEventListener('click', this.#updateQuestion.bind(this));
+    [btnQuit, btnPlayNew].forEach(btn => btn.addEventListener('click', this.#newQuiz));
+    btnShowResults.addEventListener('click', this.#showResults.bind(this));
+  }
 
-const startQuiz = async function (e) {
-  try {
-    e.preventDefault();
-    const formData = Object.fromEntries([...new FormData(form)]);
+  async #startQuiz(e) {
+    try {
+      e.preventDefault();
+      const formData = Object.fromEntries([...new FormData(form)]);
+      if (!formData.amount) throw new Error('Number of questions must be between 1 to 50');
 
-    if (!formData.amount) {
-      return;
+      form.classList.add('hidden');
+      spinner.classList.remove('hidden');
+
+      this.#questions = await this.#fetchQuestions(formData);
+      console.log(this.#questions);
+
+      spinner.classList.add('hidden');
+      quizQuestions.classList.remove('hidden');
+
+      this.#updateQuestion();
+    } catch (err) {
+      console.error(err);
     }
-    const amount = formData.amount;
-    const category = formData.category ? `&category=${formData.category}` : '';
-    const difficulty = formData.difficulty ? `&difficulty=${formData.difficulty}` : '';
-    const type = formData.type ? `&type=${formData.type}` : '';
-
-    form.classList.add('hidden');
-
-    const response = await fetch(
-      `https://opentdb.com/api.php?amount=${amount}${category}${difficulty}${type}`
-    );
-    const data = await response.json();
-
-    const { results } = data;
-
-    console.log(data);
-    results.forEach((result, i) => displayQuestion(result, i, results.length));
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-btnStartQuiz.addEventListener('click', startQuiz);
-parentEL.addEventListener('click', function (e) {
-  btnNext = e.target.closest('.btn--next');
-  if (btnNext) {
-    btnNext.closest('.quiz').classList.add('hidden');
-    btnNext.closest('.quiz').nextElementSibling.classList.remove('hidden');
   }
 
-  btnQuit = e.target.closest('.btn--quit');
-  if (btnQuit) {
-    btnQuit.closest('.quiz').classList.add('hidden');
-    // parentEL.innerHTML = '';
-    displayResult();
+  async #fetchQuestions(formData) {
+    try {
+      const amount = formData.amount;
+      const category = formData.category ? `&category=${formData.category}` : '';
+      const difficulty = formData.difficulty ? `&difficulty=${formData.difficulty}` : '';
+      const type = formData.type ? `&type=${formData.type}` : '';
+
+      const response = await fetch(
+        `https://opentdb.com/api.php?amount=${amount}${category}${difficulty}${type}`
+      );
+      const data = await response.json();
+      console.log(data);
+
+      const formatedQuestions = data.results
+        .map(result => {
+          return {
+            type: result.type,
+            difficulty: result.difficulty,
+            category: result.category,
+            question: result.question,
+            correctAnswer: result.correct_answer,
+            answers: [result.correct_answer, ...result.incorrect_answers].sort(() => Math.random() - 0.5),
+          };
+        })
+        .sort(() => Math.random() - 0.5);
+      return formatedQuestions;
+    } catch (err) {
+      throw err;
+    }
   }
 
-  btnPlayNew = e.target.closest('.btn--play-new');
-  if (btnPlayNew) {
-    // btnPlayNew.closest('.quiz-result').classList.add('hidden');
-    parentEL.innerHTML = '';
-    form.classList.remove('hidden');
-  }
-});
+  #showResults() {}
 
-/* 
+  /* 
 category: "Entertainment: Video Games"
 correct_answer: "Interplay Entertainment "
 difficulty: "medium"
@@ -108,3 +101,47 @@ length: 3
 question: "Which company did Bethesda purchase the Fallout Series from?"
 type: "multiple"
 */
+
+  #updateQuestion() {
+    if (this.#currentQuestionIndex + 1 === this.#questions.length) {
+      btnNext.classList.add('hidden');
+      btnShowResults.classList.remove('hidden');
+    }
+    const que = this.#questions[this.#currentQuestionIndex];
+
+    questionNoEl.textContent = `Question ${this.#currentQuestionIndex + 1} out of ${this.#questions.length}`;
+    scoreEl.textContent = `Score: ${this.#score}`;
+    categoryEl.textContent = `Category: ${que.category}`;
+    difficultyEl.textContent = `Difficulty: ${que.difficulty}`;
+
+    questionEl.innerHTML = `${this.#currentQuestionIndex + 1}. ${que.question}`;
+    answersEl.innerHTML = que.answers.map(ans => `<button class="answer">${ans}</button>`).join('');
+    btnNext.disabled = false;
+
+    this.#currentQuestionIndex++;
+  }
+  /* 
+<header class="question-header">
+  <p class="question-no"><!-- Question 1 out of 10 --></p>
+  <p class="score"><!-- Score: 0 --></p>
+  <p class="category"><!-- Category: Entertainment: Video Games --></p>
+  <p class="difficulty"><!-- Difficulty: medium --></p>
+</header>
+
+<h3 class="question"><!-- 1. Which company did Bethesda purchase the Fallout Series from? --></h3>
+<div class="answers">
+  <!-- <button class="answer correct">Interplay Entertainment</button>
+  <button class="answer incorrect">Capcom</button>
+  <button class="answer">Blizzard Entertainment</button>
+  <button class="answer">Nintendo</button> -->
+</div>
+*/
+
+  #newQuiz() {
+    form.classList.remove('hidden');
+    quizQuestions.classList.add('hidden');
+    quizResults.classList.add('hidden');
+  }
+}
+
+const quizApp = new QuizApp();

@@ -8,8 +8,13 @@
     <title>Javascript Quiz App</title>
   </head>
   <body>
+    <header class="header">
+      <h1 class="primary-heading">Javascript Quiz App</h1>
+    </header>
     <main class="app">
-      <form class="form">
+      <!-- Screen 1 - Quiz Options: -->
+      <form class="form-quiz-options">
+        <h2 class="secondary-heading">Quiz Options</h2>
         <div class="form__group">
           <label class="form__label" for="amount">Number of questions: </label>
           <input
@@ -20,7 +25,7 @@
             step="1"
             min="1"
             max="50"
-            value="10"
+            value="5"
           />
         </div>
 
@@ -77,44 +82,42 @@
         <button class="btn btn--start-quiz" type="submit">Start Quiz</button>
       </form>
 
-      <section class="quiz-container"></section>
-      <!-- <div class="quiz">
-        <header class="header">
-          <div class="question-no">
-            <p>Question 1 out of 10</p>
-          </div>
-          <div class="category">
-            <p><strong>Category: </strong><span>Entertainment: Video Games</span></p>
-          </div>
-          <div class="difficulty">
-            <p><strong>Difficulty: </strong><span>medium</span></p>
-          </div>
+      <!-- Screen 2 - Quiz Questions: -->
+      <section class="quiz-questions hidden">
+        <header class="question-header">
+          <p class="question-no"><!-- Question 1 out of 10 --></p>
+          <p class="score"><!-- Score: 0 --></p>
+          <p class="category"><!-- Category: Entertainment: Video Games --></p>
+          <p class="difficulty"><!-- Difficulty: medium --></p>
         </header>
-        <p class="question">Which company did Bethesda purchase the Fallout Series from?</p>
-        <ul class="options">
-          <li class="option">Interplay Entertainment</li>
-          <li class="option">Capcom</li>
-          <li class="option">Blizzard Entertainment</li>
-          <li class="option">Nintendo</li>
-        </ul>
-        <button class="btn btn--next">Next Question</button>
-      </div> -->
 
-      <!-- 
-        /* 
-        category: "Entertainment: Video Games"
-        correct_answer: "Interplay Entertainment "
-        difficulty: "medium"
-        incorrect_answers: Array(3)
-        0: "Capcom"
-        1: "Blizzard Entertainment"
-        2: "Nintendo"
-        length: 3
-        [[Prototype]]: Array(0)
-        question: "Which company did Bethesda purchase the Fallout Series from?"
-        type: "multiple"
-        */
-        -->
+        <h3 class="question"><!-- 1. Which company did Bethesda purchase the Fallout Series from? --></h3>
+        <div class="answers">
+          <!-- <button class="answer correct">Interplay Entertainment</button>
+          <button class="answer incorrect">Capcom</button>
+          <button class="answer">Blizzard Entertainment</button>
+          <button class="answer">Nintendo</button> -->
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--quit">Quit Quiz</button>
+          <button class="btn btn--next" disabled>Next Question</button>
+          <button class="btn btn--results hidden">Show Results</button>
+        </div>
+      </section>
+
+      <!-- Screen 3 - Quiz Results: -->
+      <section class="quiz-results hidden">
+        <h2 class="secondary-heading">Quiz Results</h2>
+        <div class="total-score">
+          <h3>Total Score</h3>
+          <p class="total-score__value">5/10</p>
+        </div>
+        <button class="btn btn--play-new">Play New Quiz</button>
+      </section>
+
+      <!-- Loading Spinner -->
+      <div class="spinner hidden"></div>
     </main>
   </body>
 </html>
