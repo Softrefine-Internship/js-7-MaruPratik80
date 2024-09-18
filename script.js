@@ -3,6 +3,7 @@ const questionAmount = document.getElementById('amount');
 const category = document.getElementById('category');
 const difficulty = document.getElementById('difficulty');
 const type = document.getElementById('type');
+const formInputs = document.querySelectorAll('.form__input');
 
 const form = document.querySelector('.form-quiz-options');
 const quizQuestions = document.querySelector('.quiz-questions');
@@ -22,16 +23,21 @@ const difficultyEl = document.querySelector('.difficulty');
 const questionEl = document.querySelector('.question');
 const answersEl = document.querySelector('.answers');
 
+const totalScoreEL = document.querySelector('.total-score__value');
+
 class QuizApp {
   #questions = [];
+  #currentQuestion = {};
   #currentQuestionIndex = 0;
   #score = 0;
 
   constructor() {
     btnStartQuiz.addEventListener('click', this.#startQuiz.bind(this));
     btnNext.addEventListener('click', this.#updateQuestion.bind(this));
-    [btnQuit, btnPlayNew].forEach(btn => btn.addEventListener('click', this.#newQuiz));
     btnShowResults.addEventListener('click', this.#showResults.bind(this));
+    [btnQuit, btnPlayNew].forEach(btn => btn.addEventListener('click', this.#newQuiz.bind(this)));
+
+    answersEl.addEventListener('click', this.#checkAnswer.bind(this));
   }
 
   async #startQuiz(e) {
@@ -44,10 +50,12 @@ class QuizApp {
       spinner.classList.remove('hidden');
 
       this.#questions = await this.#fetchQuestions(formData);
-      console.log(this.#questions);
 
       spinner.classList.add('hidden');
       quizQuestions.classList.remove('hidden');
+      btnNext.classList.remove('hidden');
+      btnShowResults.classList.add('hidden');
+      this.#currentQuestionIndex = this.#score = 0;
 
       this.#updateQuestion();
     } catch (err) {
@@ -86,61 +94,59 @@ class QuizApp {
     }
   }
 
-  #showResults() {}
-
-  /* 
-category: "Entertainment: Video Games"
-correct_answer: "Interplay Entertainment "
-difficulty: "medium"
-incorrect_answers: Array(3)
-0: "Capcom"
-1: "Blizzard Entertainment"
-2: "Nintendo"
-length: 3
-[[Prototype]]: Array(0)
-question: "Which company did Bethesda purchase the Fallout Series from?"
-type: "multiple"
-*/
-
   #updateQuestion() {
-    if (this.#currentQuestionIndex + 1 === this.#questions.length) {
+    if (this.#currentQuestionIndex === this.#questions.length - 1) {
       btnNext.classList.add('hidden');
       btnShowResults.classList.remove('hidden');
     }
-    const que = this.#questions[this.#currentQuestionIndex];
+
+    const que = (this.#currentQuestion = this.#questions[this.#currentQuestionIndex]);
 
     questionNoEl.textContent = `Question ${this.#currentQuestionIndex + 1} out of ${this.#questions.length}`;
     scoreEl.textContent = `Score: ${this.#score}`;
-    categoryEl.textContent = `Category: ${que.category}`;
-    difficultyEl.textContent = `Difficulty: ${que.difficulty}`;
+    categoryEl.innerHTML = `Category: ${que.category}`;
+    difficultyEl.innerHTML = `Difficulty: ${que.difficulty}`;
 
     questionEl.innerHTML = `${this.#currentQuestionIndex + 1}. ${que.question}`;
     answersEl.innerHTML = que.answers.map(ans => `<button class="answer">${ans}</button>`).join('');
-    btnNext.disabled = false;
+    btnNext.disabled = btnShowResults.disabled = true;
 
     this.#currentQuestionIndex++;
   }
-  /* 
-<header class="question-header">
-  <p class="question-no"><!-- Question 1 out of 10 --></p>
-  <p class="score"><!-- Score: 0 --></p>
-  <p class="category"><!-- Category: Entertainment: Video Games --></p>
-  <p class="difficulty"><!-- Difficulty: medium --></p>
-</header>
 
-<h3 class="question"><!-- 1. Which company did Bethesda purchase the Fallout Series from? --></h3>
-<div class="answers">
-  <!-- <button class="answer correct">Interplay Entertainment</button>
-  <button class="answer incorrect">Capcom</button>
-  <button class="answer">Blizzard Entertainment</button>
-  <button class="answer">Nintendo</button> -->
-</div>
-*/
+  #checkAnswer(e) {
+    const answer = e.target.closest('.answer');
+    if (!answer) return;
+
+    const que = this.#currentQuestion;
+    const classToAdd = answer.innerHTML === que.correctAnswer ? 'correct' : 'incorrect';
+    answer.classList.add(classToAdd);
+
+    if (classToAdd === 'incorrect') {
+      Array.from(answersEl.children)
+        .find(ans => ans.innerHTML === que.correctAnswer)
+        .classList.add('correct');
+    } else {
+      this.#score++;
+    }
+
+    btnNext.disabled = btnShowResults.disabled = false;
+  }
+
+  #showResults() {
+    quizQuestions.classList.add('hidden');
+    quizResults.classList.remove('hidden');
+    totalScoreEL.textContent = `${this.#score}/${this.#questions.length}`;
+  }
 
   #newQuiz() {
     form.classList.remove('hidden');
     quizQuestions.classList.add('hidden');
     quizResults.classList.add('hidden');
+
+    const [amount, ...otherInputs] = Array.from(formInputs);
+    amount.value = 5;
+    otherInputs.forEach(input => (input.value = ''));
   }
 }
 

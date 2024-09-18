@@ -21,7 +21,6 @@ body {
   height: 100svh;
   display: grid;
   grid-template-rows: max-content 1fr;
-  /* align-items: center; */
 }
 
 .header {
@@ -42,8 +41,7 @@ body {
 }
 
 .form-quiz-options {
-  width: min(100rem, 100%);
-  padding: 0 4rem;
+  width: 60%;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -57,7 +55,6 @@ body {
 .form__group {
   display: flex;
   flex-direction: column;
-
   gap: 0.4rem;
 }
 
@@ -108,8 +105,7 @@ body {
 }
 
 .quiz-questions {
-  width: min(110rem, 100%);
-  padding: 0 4rem;
+  width: 80%;
 }
 
 .question-header {
@@ -213,5 +209,97 @@ body {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 75em) {
+  html {
+    font-size: 56.25%;
+  }
+}
+@media only screen and (max-width: 62.5em) {
+  html {
+    font-size: 50%;
+  }
+  .primary-heading {
+    font-size: 3rem;
+  }
+}
+@media only screen and (max-width: 50em) {
+  .form-quiz-options {
+    width: min(80rem, 100%);
+    padding: 0 4rem;
+  }
+  .secondary-heading {
+    font-size: 2.8rem;
+  }
+  .quiz-questions {
+    width: 100%;
+    padding: 0 4rem;
+  }
+  .question {
+    font-size: 2.2rem;
+    margin-bottom: 3rem;
+  }
+}
+@media only screen and (max-width: 37.5em) {
+  .app {
+    padding-top: 4rem;
+  }
+  .header {
+    padding: 1rem 0;
+  }
+  .primary-heading,
+  .secondary-heading {
+    font-size: 2.4rem;
+  }
+  .question {
+    font-size: 2rem;
+  }
+}
+@media only screen and (max-width: 31.25em) {
+  body {
+    font-size: 1.6rem;
+  }
+  .header {
+    padding: 0.8rem 0;
+  }
+  .primary-heading {
+    font-size: 2.4rem;
+  }
+  .secondary-heading {
+    font-size: 2.2rem;
+  }
+  .form-quiz-options {
+    width: 100%;
+    padding: 0 2.4rem;
+  }
+  .quiz-questions {
+    padding: 0 2.4rem;
+  }
+  .question-header {
+    margin-bottom: 3.6rem;
+    font-size: 1.4rem;
+  }
+  .question-no,
+  .score {
+    font-size: 1.6rem;
+  }
+  .question {
+    font-size: 1.8rem;
+  }
+  .btn,
+  .answer {
+    padding: 0.8rem 1.6rem;
+  }
+}
+@media only screen and (max-width: 25em) {
+}
+@media only screen and (min-width: 112.5em) {
+  html {
+    font-size: 75%;
+  }
+  .form-quiz-options {
+    width: 50%;
   }
 }
