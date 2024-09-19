@@ -1,20 +1,20 @@
 // write javascript here
-const questionAmount = document.getElementById('amount');
-const category = document.getElementById('category');
-const difficulty = document.getElementById('difficulty');
-const type = document.getElementById('type');
-const formInputs = document.querySelectorAll('.form__input');
 
 const form = document.querySelector('.form-quiz-options');
 const quizQuestions = document.querySelector('.quiz-questions');
 const quizResults = document.querySelector('.quiz-results');
 const spinner = document.querySelector('.spinner');
+const errorModel = document.querySelector('.error-model');
+const overlay = document.querySelector('.overlay');
+
+const formInputs = document.querySelectorAll('.form__input');
 
 const btnStartQuiz = document.querySelector('.btn--start-quiz');
 const btnQuit = document.querySelector('.btn--quit');
 const btnNext = document.querySelector('.btn--next');
 const btnShowResults = document.querySelector('.btn--results');
 const btnPlayNew = document.querySelector('.btn--play-new');
+const btnCloseError = document.querySelector('.btn-close-error');
 
 const questionNoEl = document.querySelector('.question-no');
 const scoreEl = document.querySelector('.score');
@@ -22,8 +22,8 @@ const categoryEl = document.querySelector('.category');
 const difficultyEl = document.querySelector('.difficulty');
 const questionEl = document.querySelector('.question');
 const answersEl = document.querySelector('.answers');
-
 const totalScoreEL = document.querySelector('.total-score__value');
+const errorMessageEl = document.querySelector('.error-message');
 
 class QuizApp {
   #questions = [];
@@ -37,6 +37,8 @@ class QuizApp {
     btnShowResults.addEventListener('click', this.#showResults.bind(this));
     [btnQuit, btnPlayNew].forEach(btn => btn.addEventListener('click', this.#newQuiz.bind(this)));
 
+    [btnCloseError, overlay].forEach(btn => btn.addEventListener('click', this.#closeErrorModel));
+
     answersEl.addEventListener('click', this.#checkAnswer.bind(this));
   }
 
@@ -44,7 +46,8 @@ class QuizApp {
     try {
       e.preventDefault();
       const formData = Object.fromEntries([...new FormData(form)]);
-      if (!formData.amount) throw new Error('Number of questions must be between 1 to 50');
+      if (!formData.amount || formData.amount < 1 || formData.amount > 50)
+        throw new Error('Number of questions must be between 1 to 50');
 
       form.classList.add('hidden');
       spinner.classList.remove('hidden');
@@ -59,7 +62,7 @@ class QuizApp {
 
       this.#updateQuestion();
     } catch (err) {
-      console.error(err);
+      this.#renderError(err);
     }
   }
 
@@ -74,7 +77,9 @@ class QuizApp {
         `https://opentdb.com/api.php?amount=${amount}${category}${difficulty}${type}`
       );
       const data = await response.json();
-      console.log(data);
+      if (data.response_code === 5) throw new Error(`Too Many Requests (${response.status})`);
+      if (!response.ok) throw new Error(`Questions not found! (${response.status})`);
+      if (data.response_code === 1) throw new Error(`The API doesn't have enough questions for your query`);
 
       const formatedQuestions = data.results
         .map(result => {
@@ -147,6 +152,21 @@ class QuizApp {
     const [amount, ...otherInputs] = Array.from(formInputs);
     amount.value = 5;
     otherInputs.forEach(input => (input.value = ''));
+  }
+
+  #renderError(err) {
+    errorModel.classList.remove('hide-err');
+    overlay.classList.remove('hide-err');
+    errorMessageEl.textContent = `⚠️ Error: ${err.message}`;
+
+    form.classList.remove('hidden');
+    spinner.classList.add('hidden');
+  }
+  #closeErrorModel() {
+    errorModel.classList.add('hide-err');
+    overlay.classList.add('hide-err');
+    formInputs[0].value = 5;
+    formInputs[0].focus();
   }
 }
 

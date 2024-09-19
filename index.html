@@ -87,16 +87,16 @@
         <header class="question-header">
           <p class="question-no"><!-- Question 1 out of 10 --></p>
           <p class="score"><!-- Score: 0 --></p>
-          <p class="category"><!-- Category: Entertainment: Video Games --></p>
+          <p class="category"><!-- Category: Video Games --></p>
           <p class="difficulty"><!-- Difficulty: medium --></p>
         </header>
 
         <h3 class="question"><!-- 1. Which company did Bethesda purchase the Fallout Series from? --></h3>
         <div class="answers">
-          <!-- <button class="answer correct">Interplay Entertainment</button>
-          <button class="answer incorrect">Capcom</button>
-          <button class="answer">Blizzard Entertainment</button>
-          <button class="answer">Nintendo</button> -->
+          <button class="answer correct"><!-- Interplay Entertainment --></button>
+          <button class="answer incorrect"><!-- Capcom --></button>
+          <button class="answer"><!-- Blizzard Entertainment --></button>
+          <button class="answer"><!-- Nintendo --></button>
         </div>
 
         <div class="actions">
@@ -111,13 +111,20 @@
         <h2 class="secondary-heading">Quiz Results</h2>
         <div class="total-score">
           <h3>Total Score</h3>
-          <p class="total-score__value"><!-- 5/10 --></p>
+          <p class="total-score__value">5/10</p>
         </div>
         <button class="btn btn--play-new">Play New Quiz</button>
       </section>
 
       <!-- Loading Spinner -->
       <div class="spinner hidden"></div>
+
+      <!-- Error model -->
+      <div class="overlay hide-err"></div>
+      <div class="error-model hide-err">
+        <button class="btn-close-error">✕</button>
+        <p class="error-message"><!-- ⚠️ Error --></p>
+      </div>
     </main>
   </body>
 </html>
