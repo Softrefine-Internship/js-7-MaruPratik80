@@ -33,30 +33,6 @@
           <label class="form__label" for="category">Select Category: </label>
           <select class="form__input" id="category" name="category">
             <option value="">Any Category</option>
-            <option value="9">General Knowledge</option>
-            <option value="10">Books</option>
-            <option value="11">Film</option>
-            <option value="12">Music</option>
-            <option value="13">Musicals &amp; Theatres</option>
-            <option value="14">Television</option>
-            <option value="15">Video Games</option>
-            <option value="16">Board Games</option>
-            <option value="17">Science &amp; Nature</option>
-            <option value="18">Science: Computers</option>
-            <option value="19">Science: Mathematics</option>
-            <option value="20">Mythology</option>
-            <option value="21">Sports</option>
-            <option value="22">Geography</option>
-            <option value="23">History</option>
-            <option value="24">Politics</option>
-            <option value="25">Art</option>
-            <option value="26">Celebrities</option>
-            <option value="27">Animals</option>
-            <option value="28">Vehicles</option>
-            <option value="29">Comics</option>
-            <option value="30">Science: Gadgets</option>
-            <option value="31">Japanese Anime &amp; Manga</option>
-            <option value="32">Cartoon &amp; Animations</option>
           </select>
         </div>
 
@@ -91,16 +67,18 @@
           <p class="difficulty"><!-- Difficulty: medium --></p>
         </header>
 
-        <h3 class="question"><!-- 1. Which company did Bethesda purchase the Fallout Series from? --></h3>
-        <div class="answers">
-          <button class="answer correct"><!-- Interplay Entertainment --></button>
-          <button class="answer incorrect"><!-- Capcom --></button>
-          <button class="answer"><!-- Blizzard Entertainment --></button>
-          <button class="answer"><!-- Nintendo --></button>
+        <div class="quiz-question">
+          <h3 class="question"><!-- 1. Which company did Bethesda purchase the Fallout Series from? --></h3>
+          <div class="answers">
+            <!-- <button class="answer correct">Interplay Entertainment</button>
+            <button class="answer incorrect">Capcom</button>
+            <button class="answer">Blizzard Entertainment</button>
+            <button class="answer">Nintendo</button> -->
+          </div>
         </div>
 
         <div class="actions">
-          <button class="btn btn--quit">Quit Quiz</button>
+          <button class="btn btn--quit-quiz">Quit Quiz</button>
           <button class="btn btn--next hidden" disabled>Next Question</button>
           <button class="btn btn--results">Show Results</button>
         </div>
@@ -119,11 +97,18 @@
       <!-- Loading Spinner -->
       <div class="spinner hidden"></div>
 
-      <!-- Error model -->
-      <div class="overlay hide-err"></div>
-      <div class="error-model hide-err">
-        <button class="btn-close-error">✕</button>
-        <p class="error-message"><!-- ⚠️ Error --></p>
+      <!-- Model -->
+      <div class="overlay hide"></div>
+      <div class="model hide">
+        <button class="btn-close-model">✕</button>
+        <p class="model__message">
+          <!-- ⚠️ Error -->
+          <!-- ⚠️ Are you sure you want to quit quiz? -->
+        </p>
+        <div class="model__btns">
+          <button class="btn btn--continue">Continue</button>
+          <button class="btn btn--quit">Quit Quiz</button>
+        </div>
       </div>
     </main>
   </body>

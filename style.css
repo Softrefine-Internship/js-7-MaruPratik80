@@ -27,16 +27,17 @@ body {
   background-color: #56a5eb;
   color: #fff;
   text-align: center;
-  padding: 1.6rem 0;
+  padding: 1.2rem 0;
 }
 .primary-heading {
-  font-size: 3.4rem;
+  font-size: 3.2rem;
   font-weight: 600;
 }
 
 .app {
-  padding: 8rem 0 3rem;
+  padding: 4rem 0 2rem;
   display: grid;
+  align-items: center;
   justify-items: center;
   position: relative;
 }
@@ -106,7 +107,12 @@ body {
 }
 
 .quiz-questions {
+  align-self: start;
+  height: 60%;
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .question-header {
@@ -139,7 +145,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  margin-bottom: 6rem;
+  margin-bottom: 4rem;
 }
 
 .answer {
@@ -190,27 +196,36 @@ body {
   font-weight: 600;
 }
 
+.spinner {
+  margin-top: 8rem;
+  width: 6rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(farthest-side, #56a5eb 94%, #0000) top/0.8rem 0.8rem no-repeat,
+    conic-gradient(#0000 30%, #56a5eb);
+  mask: radial-gradient(farthest-side, #0000 calc(100% - 0.8rem), #000 0);
+  animation: rotate 1s infinite linear;
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .hidden {
   display: none;
 }
 
-.spinner {
-  margin-top: 8rem;
-  border: 0.6rem solid #fff;
-  border-top-color: #007dea;
-  border-radius: 50%;
-  height: 6rem;
-  width: 6rem;
-  animation: rotate 2s infinite linear;
-}
-
-.error-model {
+.model {
   position: absolute;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
 
-  font-size: 1.1em;
   display: grid;
   grid-template-columns: max-content;
   padding: 6rem;
@@ -220,17 +235,18 @@ body {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
   transition: all 0.4s ease-in-out;
 }
-.error-model.hide-err {
+.model.hide {
   transform: translate(-50%, -50%) scale(0);
+  visibility: hidden;
   opacity: 0;
-  z-index: -1;
 }
-.error-message {
+.model__message {
+  font-size: 1.1em;
   color: #333;
   letter-spacing: 0.5px;
   font-weight: 500;
 }
-.btn-close-error {
+.btn-close-model {
   position: absolute;
   top: 1.6rem;
   right: 1.6rem;
@@ -243,30 +259,28 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
-.btn-close-error:hover {
+.btn-close-model:hover {
   text-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5);
+}
+.model__btns {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
 }
 .overlay {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  backdrop-filter: blur(2px);
   background-color: rgba(0, 0, 0, 0.2);
-  transition: all 0.1s;
+  transition: all 0.4s;
 }
-.overlay.hide-err {
-  z-index: -1;
+.overlay.hide {
+  visibility: hidden;
   opacity: 0;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 @media only screen and (max-width: 75em) {
@@ -274,10 +288,10 @@ body {
     font-size: 56.25%;
   }
   .header {
-    padding: 1.4rem 0;
+    padding: 1rem 0;
   }
   .primary-heading {
-    font-size: 3.2rem;
+    font-size: 3rem;
   }
   .secondary-heading {
     font-size: 2.8rem;
@@ -300,15 +314,10 @@ body {
   }
 }
 @media only screen and (max-width: 50em) {
-  .app {
-    padding-top: 6rem;
-  }
   .header {
-    padding: 1.2rem 0;
+    padding: 0.8rem 0;
   }
-  .primary-heading {
-    font-size: 2.8rem;
-  }
+  .primary-heading,
   .secondary-heading {
     font-size: 2.6rem;
   }
@@ -328,15 +337,10 @@ body {
   body {
     font-size: 1.6rem;
   }
-  .app {
-    padding-top: 4rem;
-  }
   .header {
-    padding: 0.8rem 0;
+    padding: 0.6rem 0;
   }
-  .primary-heading {
-    font-size: 2.4rem;
-  }
+  .primary-heading,
   .secondary-heading {
     font-size: 2.2rem;
   }
@@ -363,7 +367,7 @@ body {
   .answer {
     padding: 0.8rem 1.6rem;
   }
-  .error-model {
+  .model {
     padding: 6rem 3.2rem;
   }
 }
@@ -374,9 +378,10 @@ body {
   .quiz-questions {
     padding: 0 2.4rem;
   }
-  .error-model {
+  .model {
     text-wrap: pretty;
-    grid-template-columns: minmax(30rem, 90%);
+    width: 90%;
+    grid-template-columns: auto;
   }
 }
 @media only screen and (min-width: 112.5em) {
