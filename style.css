@@ -216,10 +216,6 @@ body {
   }
 }
 
-.hidden {
-  display: none;
-}
-
 .model {
   position: absolute;
   top: 40%;
@@ -281,6 +277,10 @@ body {
 .overlay.hide {
   visibility: hidden;
   opacity: 0;
+}
+
+.hidden {
+  display: none;
 }
 
 @media only screen and (max-width: 75em) {
